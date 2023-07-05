@@ -20,44 +20,43 @@ class Parser{
 	 
 	}
 
-	Exp Exp() throws Exception
-	{       Exp exp1, exp2;
-		Token tokenCorrente =  scanner.getNextToken();
+	Exp Exp() throws Exception {
+		Exp exp1, exp2;
+		Token tokenCorrente = scanner.getNextToken();
 
 		if(tokenCorrente.token == TokenType.NUM)
-			return new Num(Integer.parseInt(tokenCorrente.lexema+""));
+			return new Num(Integer.parseInt(tokenCorrente.lexema));
 		
 		
 		if(tokenCorrente.token == TokenType.APar)
-			{
-				exp1 = Exp();
-				if(exp1 == null)
-					throw (new Exception("Não encontrei expressão!"));
-				
-				Operador op = Op ();
+		{
+			exp1 = Exp();
+			if(exp1 == null)
+				throw (new Exception("Não encontrei expressão!"));
 
-				if (op == null)
-					throw (new Exception("Não encontrei operador!"));
+			Operador op = Op ();
 
-				exp2 = Exp();
-				if(exp2 == null)
-					throw (new Exception("Não enconrtrei expressão!"));	
-				
-				op.arg1 = exp1;
-				op.arg2 = exp2;
-				tokenCorrente =  scanner.getNextToken();
-				if(tokenCorrente.token != TokenType.FPar)
-					throw (new Exception("Estava esperando:)"));
-				return op;
-								
-			} else throw (new Exception ("Estava esperando: ( ou <NUM>"));
+			if (op == null)
+				throw (new Exception("Não encontrei operador!"));
+
+			exp2 = Exp();
+			if(exp2 == null)
+				throw (new Exception("Não enconrtrei expressão!"));
+
+			op.arg1 = exp1;
+			op.arg2 = exp2;
+			tokenCorrente =  scanner.getNextToken();
+			if(tokenCorrente.token != TokenType.FPar)
+				throw (new Exception("Estava esperando:)"));
+			return op;
+
+		} else throw (new Exception ("Estava esperando: ( ou <NUM>"));
 
 		//return null;
 		
 	}
 
-	Operador Op () throws Exception
-		{
+	Operador Op () throws Exception {
 		
 		Token tokenCorrente = scanner.getNextToken();
 		switch(tokenCorrente.token){
@@ -65,11 +64,8 @@ class Parser{
 				return new Soma(null,null);
 			case MULT:
 				return new Mult(null,null);
-			default: 
+			default:
 		}
 		return null;
-			
-
-		}
-
+	}
 }

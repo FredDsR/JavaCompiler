@@ -1,12 +1,12 @@
 import java.io.*;
 
-enum TokenType{ NUM,SOMA, MULT,APar,FPar, EOF}
+enum TokenType{ NUM, SOMA, MULT, APar, FPar, EOF }
 
 class Token{
-  char lexema;
+  String lexema;
   TokenType token;
 
- Token (char l, TokenType t)
+ Token (String l, TokenType t)
  	{ lexema=l;token = t;}	
 
 }
@@ -14,6 +14,10 @@ class Token{
 class AnaliseLexica {
 
 	BufferedReader arquivo;
+	char currchar;
+	int currcode;
+	StringBuilder lexema;
+	boolean nextCharStaged = false;
 
 	AnaliseLexica(String a) throws Exception
 	{
@@ -22,42 +26,49 @@ class AnaliseLexica {
 		
 	}
 
+	void readChar() throws Exception{
+		if (nextCharStaged) {
+			nextCharStaged = false;
+		} else {
+			currcode = arquivo.read();
+			currchar = (char) currcode;
+		}
+	}
+
 	Token getNextToken() throws Exception
-	{	
-		Token token;
+	{
 		int eof = -1;
-		char currchar;
-		int currchar1;
+		lexema = new StringBuilder();
 
 			do{
-				currchar1 =  arquivo.read();
-				currchar = (char) currchar1;
+				this.readChar();
 			} while (currchar == '\n' || currchar == ' ' || currchar =='\t' || currchar == '\r');
 			
-			if(currchar1 != eof && currchar1 !=10)
+			if(currcode != eof && currcode !=10)
 			{
-								
-	
-				if (currchar >= '0' && currchar <= '9')
-					return (new Token (currchar, TokenType.NUM));
-				else
-					switch (currchar){
-						case '(':
-							return (new Token (currchar,TokenType.APar));
-						case ')':
-							return (new Token (currchar,TokenType.FPar));
-						case '+':
-							return (new Token (currchar,TokenType.SOMA));
-						case '*':
-							return (new Token (currchar,TokenType.MULT));
-						
-						default: throw (new Exception("Caractere inválido: " + ((int) currchar)));
-					}
+				if (currchar >= '0' && currchar <= '9') {
+					do {
+						lexema.append(currchar);
+						this.readChar();
+					} while (currchar >= '0' && currchar <= '9');
+					nextCharStaged = true;
+					return (new Token(lexema.toString(), TokenType.NUM));
+				}
+				else {
+					lexema.append(currchar);
+					return switch (currchar) {
+						case '(' -> (new Token(lexema.toString(), TokenType.APar));
+						case ')' -> (new Token(lexema.toString(), TokenType.FPar));
+						case '+' -> (new Token(lexema.toString(), TokenType.SOMA));
+						case '*' -> (new Token(lexema.toString(), TokenType.MULT));
+						default -> throw (new Exception("Caractere inválido: " + ((int) currchar)));
+					};
+				}
 			}
 
 			arquivo.close();
 			
-		return (new Token(currchar,TokenType.EOF));
+		return (new Token(lexema.append(currchar).toString(),TokenType.EOF));
 		
 	}
 }
