@@ -1,6 +1,6 @@
 import java.io.*;
 
-enum TokenType{ NUM, SOMA, MULT, APar, FPar, EOF }
+enum TokenType{ NUM, SOMA, SUB, MULT, DIV, APar, FPar, EOF }
 
 class Token{
   String lexema;
@@ -60,7 +60,9 @@ class AnaliseLexica {
 						case '(' -> (new Token(lexema.toString(), TokenType.APar));
 						case ')' -> (new Token(lexema.toString(), TokenType.FPar));
 						case '+' -> (new Token(lexema.toString(), TokenType.SOMA));
+						case '-' -> (new Token(lexema.toString(), TokenType.SUB));
 						case '*' -> (new Token(lexema.toString(), TokenType.MULT));
+						case '/' -> (new Token(lexema.toString(), TokenType.DIV));
 						default -> throw (new Exception("Caractere inválido: " + ((int) currchar)));
 					};
 				}

@@ -62,8 +62,12 @@ class Parser{
 		switch(tokenCorrente.token){
 			case SOMA:
 				return new Soma(null,null);
+			case SUB:
+				return new Sub(null,null);
 			case MULT:
 				return new Mult(null,null);
+			case DIV:
+				return new Div(null,null);
 			default:
 		}
 		return null;
