@@ -40,7 +40,7 @@ class Compilador {
 			if (file.createNewFile()) {
 				System.out.println("File created: " + file.getName());
 			} else {
-				System.out.println("File already exists.");
+				System.out.println("File " + file.getName() + " already exists.");
 			}
 
 			try {
