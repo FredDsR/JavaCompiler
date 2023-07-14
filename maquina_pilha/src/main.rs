@@ -15,7 +15,7 @@ fn get_file() -> String {
     return content;
 }
 
-fn sum(stack: &mut Vec<i32>){
+fn sum(stack: Vec<i32>){
     let value1 = stack.pop().expect("Cannot pop item.");
     let value2 = stack.pop().expect("Cannot pop item.");
     stack.push(value1 + value2);
@@ -48,7 +48,7 @@ fn run(code: String) -> i32{
     for line in lines {
         let command: Vec<&str> = line.split(" ").collect();
         match command[0] {
-            "SUM"  => sum(&mut stack),
+            "SUM"  => sum(stack),
             "SUB"  => sub(stack),
             "MULT" => mult(stack),
             "DIV"  => div(stack),
