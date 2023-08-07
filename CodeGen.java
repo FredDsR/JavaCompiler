@@ -20,13 +20,13 @@ class CodeGen{
 
 	if (arv instanceof Mult)
 		return (geraCodigo2(((Mult) arv).arg1) + 
-			geraCodigo2(((Mult) arv).arg2) +
-			"MULT\n");
+				geraCodigo2(((Mult) arv).arg2) +
+				"MULT\n");
 
 	if (arv instanceof Div)
 		return (geraCodigo2(((Div) arv).arg1) +
-			geraCodigo2(((Div) arv).arg2) +
-			"DIV\n");
+				geraCodigo2(((Div) arv).arg2) +
+				"DIV\n");
 
 	if (arv instanceof Num)
 		return ("PUSH "  + ((Num) arv).num + "\n");
